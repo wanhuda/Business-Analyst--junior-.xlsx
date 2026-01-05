@@ -55,5 +55,6 @@ LEFT JOIN year19 a
     on a.product_code = b.product_code
 WHERE a.product_code is not NULL
 ```
+![Total Earning](1.earning.png)
 
 
