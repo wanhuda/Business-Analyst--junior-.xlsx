@@ -25,7 +25,7 @@ For this dataset, there were several cleaning steps that was done.
 - **Datatype** : Upon checking the data, datatype conversion were done for further analysis and calculation
 
 # Analysis
-## Total Earning in 2020 in Comparison with 2019
+## 1. Total Earning in 2020 in Comparison with 2019
 To identify the total earning in 2020, I create a table that shows earning for each product for both year. Then, I sum the total earning.
 
 ```sql
@@ -56,5 +56,9 @@ LEFT JOIN year19 a
 WHERE a.product_code is not NULL
 ```
 ![Total Earning](1.earning.png)
+As shown in the diagram above, total earning of the store increase with 7 million ringgit from 2019 to 2020. It is also important to note that some product in 2019 were discontinued and there were some additional 
+new product in 2020. 
+
+## 2. Product with the Highest Increase in Revenue
 
 
