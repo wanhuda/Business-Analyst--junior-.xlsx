@@ -59,6 +59,38 @@ WHERE a.product_code is not NULL
 As shown in the diagram above, total earning of the store increase with 7 million ringgit from 2019 to 2020. It is also important to note that some product in 2019 were discontinued and there were some additional 
 new product in 2020. 
 
-## 2. Product with the Highest Increase in Revenue
+## 2. Product with the Highest Increase in Earning
+To identify product with highest increase in earning for future marketing strategy.
+
+```sql
+WITH year19 as (
+    SELECT 
+        product_code,
+        SUM(delivery_amount) as total_amount
+    FROM cleaned2019
+    WHERE order_number is not null
+    GROUP BY product_code
+), year20 as (
+    SELECT
+        product_code,
+        SUM(delivery_amount) as total_amount
+    FROM cleaned2020
+    WHERE order_number is not null
+    GROUP BY product_code
+)
+SELECT
+    b.product_code,
+    b.total_amount as earning_2020,
+    a.total_amount as earning_2019,
+    ABS(b.total_amount - a.total_amount) as difference,
+    sum(ABS(b.total_amount - a.total_amount)) over() AS overall_difference
+FROM year20 b 
+LEFT JOIN year19 a
+    on a.product_code = b.product_code
+```
+![Earning Increment](2.increment.png)
+These 4 have the most notable increment in earning, which has increment higher than RM750,000.
+
+## 3. ABC Analysis
 
 
