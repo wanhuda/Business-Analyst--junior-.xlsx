@@ -162,8 +162,9 @@ GROUP BY group_type
 | B           | 36            |
 | C           | 43            |
 
+Even though the number of products in group C is higher than group A, it generates signicantly lower revenue. This shows that the number of products does not have any influence on how much revenue was generated.
+
 ## 4. Customer Revenue Growth in 2020
-This is to study each customer revenue growth from 2019 to 2020.
 
 ```sql
 WITH year19 as (
@@ -199,7 +200,9 @@ ORDER BY revenue_growth DESC
 
 ![Rate of Customer Revenue Growth](4.percentage.png)
 
-For most of customer, there are growth in their purchasing while for some others there are decline in their purchasing. However, for overall customer revenue growth, we see a quite significant growth with more than 70% increase.
+- Most customers increased their spending from 2019 to 2020.
+- Some customers showed a decline, but overall customer revenue grew by over 70%.
+- This suggests strong customer retention and increased purchasing activity.
 
 ## 5. RFM Analysis
 RFM analysis (Recency, Frequency, Monetary Value) is a customer segmentation technique that scores customers based on how recently they bought, how often they buy, and how much they spend.
@@ -275,10 +278,12 @@ ORDER BY r.latest_delivery DESC;
 
 ![rfm2](5.rfm2.png)
 
-As seen above, the revenue generates from each customer is linear with the number of orders made by customer. All latest purchased made by customers also in 2020.
+- Recency: All customers made their most recent purchases in 2020.
+- Frequency: Customers with more orders generated higher revenue.
+- Monetary: Total spending increases linearly with purchase frequency.
+- Frequent customers are the most valuable to the business.
 
 ## 6. Seasonality
-This is to see if there are any seasonality based on the pattern on how much the store earn for each month in both 2019 and 2020. 
 
 ```sql
 WITH year19 as (
@@ -322,7 +327,9 @@ ORDER BY avg_monthly DESC
 
 ![seasonality](6.revenuemonth.png)
 
-Looking at the diagram above, there is no pattern showing that there is any seasonality happen in this store, except for month of November, where revenue earned the least among all months. 
+- No strong seasonal pattern was observed across the year.
+- November consistently recorded the lowest average revenue.
+- Sales performance is relatively stable throughout most months.
 
 # Findings
 
