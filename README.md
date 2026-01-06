@@ -98,7 +98,7 @@ To identify which products generate the highest revenue and how important they a
 - B group : Medium Important. Generate the next 15% of the revenue to the store.
 - C group : Least Important. Generate the last 5% of the revenue to the store.
 
-``sql
+```sql
 WITH year19 as (
     SELECT 
         product_code,
@@ -147,3 +147,4 @@ GROUP BY group_type
 ## 4. Customer Revenue Growth in 2020
 This is to study each customer revenue growth from 2019 to 2020.
 
+![Customer Revenue Growth]
