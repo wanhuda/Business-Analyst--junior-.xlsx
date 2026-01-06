@@ -147,4 +147,34 @@ GROUP BY group_type
 ## 4. Customer Revenue Growth in 2020
 This is to study each customer revenue growth from 2019 to 2020.
 
-![Customer Revenue Growth]
+```sql
+WITH year19 as (
+    SELECT 
+        client_id,
+        product_code,
+        SUM(delivery_amount) as total_amount
+    FROM cleaned2019
+    WHERE order_number is not null
+    GROUP BY client_id, product_code
+), year20 as (
+    SELECT
+        client_id,
+        product_code,
+        SUM(delivery_amount) as total_amount
+    FROM cleaned2020
+    WHERE order_number is not null
+    GROUP BY client_id, product_code
+)
+SELECT
+    COALESCE(a.client_id, b.client_id) AS client_id,
+    COALESCE(b.total_amount, 0) - COALESCE(a.total_amount, 0) AS revenue_growth,
+    SUM(COALESCE(b.total_amount, 0) - COALESCE(a.total_amount, 0)) OVER() AS total_growth
+FROM year19 a
+FULL OUTER JOIN year20 b
+    ON a.client_id = b.client_id
+--WHERE a.product_code IS NOT NULL 
+ -- and b.product_code is not null
+ORDER BY revenue_growth DESC
+```
+![Customer Revenue Growth](4.customergrowth.png)
+For most of customer, there are growth in their purchasing while for some others there are decline in their purchasing. However, for overall customer revenue growth, we see a quite significant growth with more than 70% increase.
