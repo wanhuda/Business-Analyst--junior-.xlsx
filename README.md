@@ -142,4 +142,8 @@ SELECT
 FROM abc_group
 GROUP BY group_type
 ```
+![ABC Analysis](3.abc.png)
+
+## 4. Customer Revenue Growth in 2020
+This is to study each customer revenue growth from 2019 to 2020.
 
