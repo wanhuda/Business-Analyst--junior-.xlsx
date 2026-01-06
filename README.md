@@ -92,5 +92,54 @@ LEFT JOIN year19 a
 These 4 have the most notable increment in earning, which has increment higher than RM750,000.
 
 ## 3. ABC Analysis
+To identify which products generate the highest revenue and how important they are to the business. Grouping into three groups; A, B and C group.
 
+- A group : Very Important. Generate the top 80% of the revenue to the store.
+- B group : Medium Important. Generate the next 15% of the revenue to the store.
+- C group : Least Important. Generate the last 5% of the revenue to the store.
+
+``sql
+WITH year19 as (
+    SELECT 
+        product_code,
+        SUM(delivery_amount) as total_amount
+    FROM cleaned2019
+    WHERE order_number is not null
+    GROUP BY product_code
+), year20 as (
+    SELECT
+        product_code,
+        SUM(delivery_amount) as total_amount
+    FROM cleaned2020
+    WHERE order_number is not null
+    GROUP BY product_code
+), cumulative AS (
+SELECT
+    b.product_code,
+    b.total_amount + a.total_amount as revenue,
+    SUM(b.total_amount + a.total_amount) OVER () AS total_revenue,
+    SUM(b.total_amount + a.total_amount) OVER (ORDER BY b.total_amount + a.total_amount DESC
+        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) as cum_revenue
+FROM year20 b 
+LEFT JOIN year19 a
+    on a.product_code = b.product_code
+WHERE a.product_code is not NULL
+), abc_group AS (
+SELECT
+    *,
+    cum_revenue / total_revenue as percentage,
+    CASE
+        WHEN cum_revenue / total_revenue <= 0.80 THEN 'A'
+        WHEN cum_revenue / total_revenue <=0.95 THEN 'B'
+        ELSE 'C' 
+    END AS group_type
+FROM cumulative
+)
+SELECT 
+    group_type,
+    COUNT(product_code) AS number_of_product,
+    SUM(revenue) as revenue
+FROM abc_group
+GROUP BY group_type
+```
 
