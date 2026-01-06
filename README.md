@@ -55,7 +55,9 @@ LEFT JOIN year19 a
     on a.product_code = b.product_code
 WHERE a.product_code is not NULL
 ```
+
 ![Total Earning](1.earning.png)
+
 As shown in the diagram above, total earning of the store increase with 7 million ringgit from 2019 to 2020. It is also important to note that some product in 2019 were discontinued and there were some additional 
 new product in 2020. 
 
@@ -88,7 +90,9 @@ FROM year20 b
 LEFT JOIN year19 a
     on a.product_code = b.product_code
 ```
+
 ![Earning Increment](2.increment.png)
+
 These 4 have the most notable increment in earning, which has increment higher than RM750,000.
 
 ## 3. ABC Analysis
@@ -142,6 +146,7 @@ SELECT
 FROM abc_group
 GROUP BY group_type
 ```
+
 ![ABC Analysis](3.abc.png)
 
 ## 4. Customer Revenue Growth in 2020
@@ -176,8 +181,11 @@ FULL OUTER JOIN year20 b
  -- and b.product_code is not null
 ORDER BY revenue_growth DESC
 ```
+
 ![Customer Revenue Growth](4.customergrowth.png)
+
 ![Rate of Customer Revenue Growth](4.percentage.png)
+
 For most of customer, there are growth in their purchasing while for some others there are decline in their purchasing. However, for overall customer revenue growth, we see a quite significant growth with more than 70% increase.
 
 ## 5. RFM Analysis
@@ -249,3 +257,15 @@ LEFT JOIN monetary m
     ON r.client_id = m.client_id
 ORDER BY r.latest_delivery DESC;
 ```
+
+![rfm](5.rfm.png)
+
+![rfm2](5.rfm2.png)
+
+As seen above, the revenue generates from each customer is linear with the number of orders made by customer. All latest purchased made by customers also in 2020.
+
+## 6. Seasonality
+This is to see if there are any seasonality based on the pattern on how much the store earn for each month in both 2019 and 2020. 
+
+
+
