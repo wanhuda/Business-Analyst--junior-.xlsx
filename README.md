@@ -177,4 +177,75 @@ FULL OUTER JOIN year20 b
 ORDER BY revenue_growth DESC
 ```
 ![Customer Revenue Growth](4.customergrowth.png)
+![Rate of Customer Revenue Growth](4.percentage.png)
 For most of customer, there are growth in their purchasing while for some others there are decline in their purchasing. However, for overall customer revenue growth, we see a quite significant growth with more than 70% increase.
+
+## 5. RFM Analysis
+RFM analysis (Recency, Frequency, Monetary Value) is a customer segmentation technique that scores customers based on how recently they bought, how often they buy, and how much they spend.
+
+- Recency (R): The most recent purchase made by customer.
+- Frequency (F): Frequency of customer make their purchase.
+- Monetary Value (M): Customers' spending amount.
+
+```sql
+WITH year19 as (
+    SELECT 
+        client_id,
+        date_of_delivery,
+        order_number,
+        product_code,
+        delivery_amount
+    FROM cleaned2019
+    WHERE order_number is not null
+), year20 as (
+    SELECT
+        client_id,
+        date_of_delivery,
+        order_number,
+        product_code,
+        delivery_amount
+    FROM cleaned2020
+    WHERE order_number is not null
+), recency AS (
+    SELECT
+        client_id,
+        MAX(date_of_delivery) AS latest_delivery
+    FROM (
+        SELECT client_id, date_of_delivery FROM year19
+        UNION ALL
+        SELECT client_id, date_of_delivery FROM year20
+    ) t
+    GROUP BY client_id
+), frequency AS (
+    SELECT
+        client_id,
+        COUNT(DISTINCT order_number) AS total_orders
+    FROM (
+        SELECT client_id, order_number FROM year19
+        UNION ALL
+        SELECT client_id, order_number FROM year20
+    ) t
+    GROUP BY client_id
+), monetary AS (
+    SELECT
+        client_id,
+        SUM(delivery_amount) AS total_revenue
+    FROM (
+        SELECT client_id, delivery_amount FROM year19
+        UNION ALL
+        SELECT client_id, delivery_amount FROM year20
+    ) t
+    GROUP BY client_id
+)
+SELECT
+    r.client_id,
+    r.latest_delivery,        -- Recency
+    f.total_orders,           -- Frequency
+    m.total_revenue           -- Monetary
+FROM recency r
+LEFT JOIN frequency f
+    ON r.client_id = f.client_id
+LEFT JOIN monetary m
+    ON r.client_id = m.client_id
+ORDER BY r.latest_delivery DESC;
+```
