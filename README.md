@@ -1,32 +1,37 @@
 # Introduction
-This project was conducted to analyse the business trend of a store throughout two years of its operation (2019-2020). This project contains two dataset of each respective year.
+This project analyzes the business performance of a retail store over two years (2019–2020) using sales and customer transaction data. The goal is to understand revenue trends, product performance, and customer behavior, and to translate these insights into practical business recommendations.
 
 # Executive Summary
 This report address business trend of a store 
 
 # Objectives
 
-1. To investigate the client purchasing power/pattern
-2. To see top selling product to improve marketing for those product
-3. To see growth of seller's revenue after the addition  of product  to the store
-4. To see customer retention value to the store
+1. Analyze customer purchasing patterns and purchasing power.
+2. Identify top-selling and high-growth products.
+3. Evaluate revenue growth after new product additions.
+4. Assess customer retention and value to the business.
 
 # Data Overview
 
 - **Data source** : [Kaggle](https://www.kaggle.com/datasets/sticktogethertm/business-analysis-junior)
-- **Data size** : This dataset contains of two tables for each the year 0f 2019 and 2020 respectively. For each table, it collects the Order Number, Client ID, Product Code, Date of Delivery and Delivery Amount
-- **Limitations and challenge** : Data collected for only two years, thus make it not enough to study the trend throughout the years of store operation. A huge part of data were missing from the columns, making it possibly bias (?)
+- **Period**: 2019 and 2020
+- **Tables**: One table per year
+- **Key fields**: Order Number, Client ID, Product Code, Date of Delivery, Delivery Amount
+
+# Limitations and Challenges
+- The dataset covers only two years, which limits long-term trend analysis.
+- A significant portion of records contained missing values.
+- Removing rows with missing data may introduce bias, but was necessary to ensure data accuracy.
 
 # Data Cleaning
 For this dataset, there were several cleaning steps that was done.
 
-- **Missing data** : Since for the most part of missing data, only one column data is available, all rows with missing data were deleted.
-- **Redundancies** : All redundant data were eliminated
-- **Datatype** : Upon checking the data, datatype conversion were done for further analysis and calculation
+- **Missing data** : Removed rows with missing critical fields
+- **Redundancies** : Eliminated duplicate records
+- **Datatype** : Converted data types to ensure accurate calculations and analysis
 
 # Analysis
-## 1. Total Earning in 2020 in Comparison with 2019
-To identify the total earning in 2020, I create a table that shows earning for each product for both year. Then, I sum the total earning.
+## 1. Total Earning Comparison (2019 and 2020)
 
 ```sql
 WITH year19 as (
@@ -58,11 +63,11 @@ WHERE a.product_code is not NULL
 
 ![Total Earning](1.earning.png)
 
-As shown in the diagram above, total earning of the store increase with 7 million ringgit from 2019 to 2020. It is also important to note that some product in 2019 were discontinued and there were some additional 
-new product in 2020. 
+- Total store revenue increased by approximately RM7 million in 2020.
+- Some products from 2019 were discontinued, while new products were introduced in 2020.
+- Despite product changes, overall revenue growth remained strong.
 
 ## 2. Product with the Highest Increase in Earning
-To identify product with highest increase in earning for future marketing strategy.
 
 ```sql
 WITH year19 as (
@@ -93,14 +98,16 @@ LEFT JOIN year19 a
 
 ![Earning Increment](2.increment.png)
 
-These 4 have the most notable increment in earning, which has increment higher than RM750,000.
+- A small number of products showed significant revenue growth.
+- Four products recorded a significant increase of more than RM700,000 each.
+- Revenue growth was driven mainly by these high-performing products.
 
 ## 3. ABC Analysis
-To identify which products generate the highest revenue and how important they are to the business. Grouping into three groups; A, B and C group.
+To identify which products generate the highest revenue and how important they are to the business. These products were categorised into three groups:
 
-- A group : Very Important. Generate the top 80% of the revenue to the store.
-- B group : Medium Important. Generate the next 15% of the revenue to the store.
-- C group : Least Important. Generate the last 5% of the revenue to the store.
+- A group : Products that generate the top 80% of the revenue to the store.
+- B group : Products that generate the next 15% of the revenue to the store.
+- C group : Products that generate the last 5% of the revenue to the store.
 
 ```sql
 WITH year19 as (
@@ -148,6 +155,12 @@ GROUP BY group_type
 ```
 
 ![ABC Analysis](3.abc.png)
+
+| Group       | Number of Products|
+|--------------|-----------------|
+| A           | 42            |
+| B           | 36            |
+| C           | 43            |
 
 ## 4. Customer Revenue Growth in 2020
 This is to study each customer revenue growth from 2019 to 2020.
@@ -313,11 +326,21 @@ Looking at the diagram above, there is no pattern showing that there is any seas
 
 # Findings
 
+1. The store experienced strong revenue growth between 2019 and 2020.
+2. Revenue is highly concentrated in a small number of top-performing products.
+3. Customer retention is strong, with most customers increasing their spending.
+4. Purchase frequency is a key driver of customer value.
+5. There is minimal seasonality impact, except for weaker performance in November.
 
 # Recommendations
 
+1. Focus marketing and inventory planning on Group A products.
+2. Promote products with the highest revenue growth more aggressively.
+3. Implement loyalty or retention programs to encourage repeat purchases.
+4. Introduce targeted promotions in November to improve low-month performance.
+5. Continue improving data collection to support long-term trend analysis.
 
 # Conclusion
 
-
+This analysis shows that business growth is driven by a small number of high-performing products and loyal, repeat customers. By prioritizing these products, strengthening customer retention strategies, and addressing weaker periods, the store can sustain and further improve its overall performance. This project demonstrates how data-driven analysis can support effective business decision-making.
 
